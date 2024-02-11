@@ -1,4 +1,7 @@
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -92,9 +95,27 @@ public class ShoppingListApp {
 
     private void readData() {
         // TODO: write this method: load the shopping list data from your shoppinglist.txt file and populate shoppingList
+        ArrayList<String> words = new ArrayList<>();
+        try {
+            File myFile = new File("src\\shoppingList.txt");
+            Scanner fileScanner = new Scanner(myFile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                words.add(data);
+            }
+        } catch (IOException exception) {
+            System.out.println("error");
+        }
     }
 
-    private void saveData() {
-        // TODO: write this method: save the items in shoppingList to shoppinglist.txt
+        private void saveData(){
+            try(PrintWriter file = new PrintWriter("src\\shoppinglist.txt")) {
+                for (Item items : shoppingList) {
+                    file.write(items.getName());
+                }
+            } catch (IOException exception) {
+                System.out.println("error");
+            }
+        }
     }
-}
+
